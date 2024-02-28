@@ -23,17 +23,30 @@ const elements = {
   body: document.querySelector('body'),
 };
 
+const timeout = 1000;
+let intervalID;
+
 elements.startBtn.addEventListener('click', onClickStartBtn);
-elements.stopBtn.addEventListener('click', onClickStopBtn);
 
 function onClickStartBtn() {
-  elements.startBtn.disabled = false;
-  elements.body.style.backgroundColor = getRandomHexColor();
+  toggleStartBtnDisabled();
+
+  intervalID = setInterval(changeColor, timeout);
+
+  elements.stopBtn.addEventListener('click', onClickStopBtn);
 }
 function onClickStopBtn() {
-  elements.startBtn.disabled = true;
-  elements.startBtn.removeEventListener('click', onClickStartBtn);
+  toggleStartBtnDisabled();
+  clearInterval(intervalID);
+
   elements.stopBtn.removeEventListener('click', onClickStopBtn);
+}
+
+function toggleStartBtnDisabled() {
+  elements.startBtn.disabled = !elements.startBtn.disabled;
+}
+function changeColor() {
+  elements.body.style.backgroundColor = getRandomHexColor();
 }
 
 function getRandomHexColor() {
