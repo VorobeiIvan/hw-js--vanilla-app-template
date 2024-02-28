@@ -19,4 +19,44 @@
 // Зроби так, щоб сховище оновлювалось не частіше, ніж раз на 500 мілісекунд. Для цього додай до проекту і використовуй бібліотеку lodash.throttle.
 
 import throttle from 'lodash.throttle';
-const formElement = document.querySelector('.feedback-form');
+
+const el = {
+  form: document.querySelector('.feedback-form'),
+  input: document.querySelector('input'),
+  textarea: document.querySelector('textarea'),
+};
+
+const feedbackStorageKey = 'feedback-form-state';
+const formData = {
+  email: '',
+  message: '',
+};
+const savedFormData = JSON.parse(localStorage.getItem(feedbackStorageKey));
+
+if (savedFormData) {
+  el.input.value = savedFormData.email;
+  el.textarea.value = savedFormData.message;
+}
+
+el.form.addEventListener('input', throttle(onInput), 500);
+el.form.addEventListener('submit', onSubmitForm);
+
+function onInput() {
+  formData.email = el.input.value;
+  formData.message = el.textarea.value;
+
+  localStorage.setItem(feedbackStorageKey, JSON.stringify(formData));
+}
+
+function onSubmitForm(event) {
+  event.preventDefault();
+  el.input.value = '';
+  el.textarea.value = '';
+
+  console.log('savedFormData', savedFormData);
+
+  localStorage.removeItem(feedbackStorageKey);
+
+  el.form.removeEventListener('input', onInput);
+  el.form.removeEventListener('submit', onSubmitForm);
+}
