@@ -1,0 +1,65 @@
+body {
+    padding: 20px;
+}
+
+#datetime-picker {
+    border: 1px solid rgb(36, 95, 59);
+    margin-top: 40px;
+    display: block;
+    border-radius: 20px;
+    padding: 8px 24px;
+    background-color: rgb(212, 234, 220);
+    color: rgb(91, 121, 96);
+    width: 250px;
+    font-size: 20px;
+    text-align: center;
+
+}
+
+[data-start] {
+    margin-bottom: 40px;
+    border: none;
+    border-radius: 20px;
+    padding: 4px 24px;
+    margin-top: 20px;
+    background-color: rgb(36, 95, 59);
+    color: bisque;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        background-color: rgb(42, 126, 74);
+    }
+
+    &:disabled {
+        background-color: rgb(103, 108, 105);
+    }
+}
+
+
+.timer {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-content: center;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: rgb(36, 95, 59);
+    color: bisque;
+    width: 600px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.value {}
+
+.label {}

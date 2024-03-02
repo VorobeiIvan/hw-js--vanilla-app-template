@@ -1,4 +1,3 @@
-
 // Завдання 2 - таймер зворотного відліку
 // Виконуй це завдання у файлах 02-timer.html і 02-timer.js. Напиши скрипт таймера, який здійснює зворотний відлік до певної дати. Такий таймер може використовуватися у блогах та інтернет-магазинах, сторінках реєстрації подій, під час технічного обслуговування тощо. Подивися демо-відео роботи таймера.
 
@@ -99,3 +98,70 @@
 // Наступний функціонал не обов'язковий для здавання завдання, але буде хорошою додатковою практикою.
 
 // Для відображення повідомлень користувачеві, замість window.alert(), використовуй бібліотеку notiflix.
+
+// Описаний в документації
+import flatpickr from 'flatpickr';
+// Додатковий імпорт стилів
+import 'flatpickr/dist/flatpickr.min.css';
+import './02-timer.css';
+
+const elements = {
+  btnStart: document.querySelector('[data-start]'),
+  input: document.querySelector('#datetime-picker'),
+  days: document.querySelector('[data-days]'),
+  hours: document.querySelector('[data-hours]'),
+  minutes: document.querySelector('[data-minutes]'),
+  seconds: document.querySelector('[data-seconds]'),
+};
+
+elements.btnStart.disabled = true;
+
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    console.log(selectedDates[0]);
+  },
+};
+
+const flp = flatpickr('#datetime-picker', options);
+const timerId = setTimeout(timer, 1000);
+function timer() {}
+
+function addLeadingZero(value) {
+  padStart();
+}
+
+elements.btnStart.addEventListener('clic', onClickStartBtn);
+function onClickStartBtn() {}
+function changeDisableBtn() {
+  btnStart.disabled = false;
+}
+function massege() {
+  alert('Please choose a date in the future');
+}
+
+function convertMs(ms) {
+  // Number of milliseconds per unit of time
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  // Remaining days
+  const days = Math.floor(ms / day);
+  // Remaining hours
+  const hours = Math.floor((ms % day) / hour);
+  // Remaining minutes
+  const minutes = Math.floor(((ms % day) % hour) / minute);
+  // Remaining seconds
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+
+  return { days, hours, minutes, seconds };
+}
+
+console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
+console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
+console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
