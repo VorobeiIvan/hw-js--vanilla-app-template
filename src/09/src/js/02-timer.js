@@ -53,9 +53,9 @@
 // Вибір дати
 // Метод onClose() з об'єкта параметрів викликається щоразу під час закриття елемента інтерфейсу, який створює flatpickr. Саме у ньому варто обробляти дату, обрану користувачем. Параметр selectedDates - це масив обраних дат, тому ми беремо перший елемент.
 
-// Якщо користувач вибрав дату в минулому, покажи window.alert() з текстом "Please choose a date in the future".
-// Якщо користувач вибрав валідну дату (в майбутньому), кнопка «Start» стає активною.
-// Кнопка «Start» повинна бути неактивною доти, доки користувач не вибрав дату в майбутньому.
+// ✅ Якщо користувач вибрав дату в минулому, покажи window.alert() з текстом "Please choose a date in the future".
+// ✅ Якщо користувач вибрав валідну дату (в майбутньому), кнопка «Start» стає активною.
+// ✅ Кнопка «Start» повинна бути неактивною доти, доки користувач не вибрав дату в майбутньому.
 // Натисканням на кнопку «Start» починається відлік часу до обраної дати з моменту натискання.
 // Відлік часу
 // Натисканням на кнопку «Start» скрипт повинен обчислювати раз на секунду, скільки часу залишилось до вказаної дати, і оновлювати інтерфейс таймера, показуючи чотири цифри: дні, години, хвилини і секунди у форматі xx:xx:xx:xx.
@@ -63,9 +63,9 @@
 // Кількість днів може складатися з більше, ніж двох цифр.
 // Таймер повинен зупинятися, коли дійшов до кінцевої дати, тобто 00:00:00:00.
 // НЕ БУДЕМО УСКЛАДНЮВАТИ
-// Якщо таймер запущений, для того щоб вибрати нову дату і перезапустити його - необхідно перезавантажити сторінку.
+//✅ Якщо таймер запущений, для того щоб вибрати нову дату і перезапустити його - необхідно перезавантажити сторінку.
 
-// Для підрахунку значень використовуй готову функцію convertMs, де ms - різниця між кінцевою і поточною датою в мілісекундах.
+// ✅ Для підрахунку значень використовуй готову функцію convertMs, де ms - різниця між кінцевою і поточною датою в мілісекундах.
 
 // function convertMs(ms) {
 //   // Number of milliseconds per unit of time
@@ -99,11 +99,9 @@
 
 // Для відображення повідомлень користувачеві, замість window.alert(), використовуй бібліотеку notiflix.
 
-// Описаний в документації
 import flatpickr from 'flatpickr';
-// Додатковий імпорт стилів
 import 'flatpickr/dist/flatpickr.min.css';
-import './02-timer.css';
+import '../css/02-timer.css';
 
 const elements = {
   btnStart: document.querySelector('[data-start]'),
@@ -114,7 +112,11 @@ const elements = {
   seconds: document.querySelector('[data-seconds]'),
 };
 
-elements.btnStart.disabled = true;
+changeDisabledBtn();
+
+let ms = 0;
+let nowTime = null;
+let timerId = null;
 
 const options = {
   enableTime: true,
@@ -122,25 +124,28 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    nowTime = new Date().getTime();
+    const selectedTime = selectedDates[0].getTime();
+    ms = selectedTime - nowTime;
+    if (ms > 0) {
+      elements.btnStart.disabled = false;
+    } else {
+      massege('Please choose a date in the future');
+      elements.btnStart.disabled = true;
+    }
   },
 };
-
 const flp = flatpickr('#datetime-picker', options);
-const timerId = setTimeout(timer, 1000);
-function timer() {}
 
-function addLeadingZero(value) {
-  padStart();
-}
+elements.btnStart.addEventListener('click', onClickStartBtn);
+function onClickStartBtn() {
+  timerId = setInterval(() => {
+    ms -= 1000;
+    renderTimerValue();
+  }, 1000);
 
-elements.btnStart.addEventListener('clic', onClickStartBtn);
-function onClickStartBtn() {}
-function changeDisableBtn() {
-  btnStart.disabled = false;
-}
-function massege() {
-  alert('Please choose a date in the future');
+  changeDisabledBtn();
+  changeDisabledInput();
 }
 
 function convertMs(ms) {
@@ -161,7 +166,40 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
+function addLeadingZero(value) {
+  if (value < 10) {
+    return value.toString().padStart(2, '0');
+  }
+  return value;
+}
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+function renderTimerValue() {
+  if (ms <= 0) {
+    clearInterval(timerId);
+    massege('Timer has ended');
+    changeDisabledInput();
+    changeDisabledBtn();
+  }
+  if (ms > 0) {
+    convertMs(ms);
+    elements.days.textContent = addLeadingZero(convertMs(ms).days);
+    elements.hours.textContent = addLeadingZero(convertMs(ms).hours);
+    elements.minutes.textContent = addLeadingZero(convertMs(ms).minutes);
+    elements.seconds.textContent = addLeadingZero(convertMs(ms).seconds);
+  } else {
+    elements.days.textContent = '00';
+    elements.hours.textContent = '00';
+    elements.minutes.textContent = '00';
+    elements.seconds.textContent = '00';
+  }
+}
+function changeDisabledBtn() {
+  elements.btnStart.disabled = !elements.input.disabled;
+}
+
+function changeDisabledInput() {
+  elements.input.disabled = !elements.input.disabled;
+}
+function massege(massege) {
+  alert(massege);
+}
