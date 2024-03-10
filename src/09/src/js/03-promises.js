@@ -1,4 +1,3 @@
-
 // Завдання 3 - генератор промісів
 // Виконуй це завдання у файлах 03-promises.html і 03-promises.js. Подивися демо-відео роботи генератора промісів.
 
@@ -47,11 +46,40 @@
 
 // Для відображення повідомлень користувачеві, замість console.log(), використовуй бібліотеку notiflix.
 
+import Notiflix from 'notiflix';
+
+const form = document.querySelector('.form');
+const delay = form.querySelector('[name="delay"]');
+const step = form.querySelector('[name="step"]');
+const amount = form.querySelector('[name="amount"]');
+
+form.addEventListener('submit', onSubmit);
+function onSubmit(e) {
+  const position = 1;
+  console.log('delay', delay.value);
+  console.log('step', step.value);
+  console.log('amount', amount.value);
+  e.preventDefault();
+  createPromise(position, delay);
+}
+
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
   if (shouldResolve) {
     // Fulfill
+    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
   } else {
     // Reject
+    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
   }
 }
+
+// createPromise(2, 1500)
+//   .then(({ position, delay }) => {
+//     // console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+//     Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+//   })
+//   .catch(({ position, delay }) => {
+//     Notiflix.Notify.warning();
+//     `❌ Rejected promise ${position} in ${delay}ms`;
+//   });
