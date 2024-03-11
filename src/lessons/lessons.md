@@ -132,4 +132,73 @@ package.json
 
 <!-- див документацію -->
 
-- налаштування мін css лагіна
+- налаштування min css плагіна
+
+**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+JSON
+**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+
+JSON.stringify(user) - з об'єкту робить рядок JSON.parse(user) - з рядка робить
+об'єкт
+
+const user ={ name: "Mango", age:2, };
+
+console.log (JSON.stringify(user));
+
+const saveUserData ="{"name":"Mango","age":2}"
+
+console.log (JSON.parse(saveUserData));
+
+**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+LocalStorage
+**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+
+можна зберігати (темиб мови )
+
+LocalStorage - читає тільки рядки. якщо потрібно зберегти асив чи об'єкт -
+JSON.stringify({ name: "Mango", age:2, })
+
+- localStorage.setItem("ключ","значення") - запис ключа
+  тазначення(створенння/перевизначення)
+- localStorage.getItem("ключ") - читання значення
+
+- console.log (localStorage);
+- localStorage.setItem("my-data", " qwertyu")
+- const saveData = localStorage.getItem("my-data"); // рядок
+- const parsedData = JSON.parse(saveData) // об'єкт
+
+**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+SessionStorage
+**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+можна зберігати ( збереження корзини )
+
+<!--
+import throttle from 'lodash.throttle'
+const STORAGE_KEY ='STORAGE_KEY'
+
+const refs ={
+  form: document.querySelector('.js-feedback-form'),
+  textarea: document.querySelector('.js-feedback-form textarea'),
+}
+
+refs.form.addEventListener ('submit', onFormSubmit);
+refs.textarea.addEventListener ('input', throttle(onTextareaInput,500));
+populateTextarea();
+
+function onFormSubmit(e){
+   e.preventDefault();
+
+   console.log( "Відправляємо форму");
+   e.currentTarget.reset();
+   localStorage.removeItem('STORAGE_KEY')
+}
+function onTextareaInput (e) {
+  const message =e.target.value;
+  localStorage.setItem('STORAGE_KEY',message)
+}
+function populateTextarea (){
+  const saveMessage =localStorage.getItem('STORAGE_KEY')
+}
+-->
+
+- npm i lodash.throttle
