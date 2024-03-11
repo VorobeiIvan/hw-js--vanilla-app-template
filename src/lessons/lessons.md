@@ -58,3 +58,78 @@ document.body.appendChild(script); }
 - npm remove
 
   **\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+  webpack.js.org
+  **\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+
+- npm i - y
+- npm webpack webpack-cli -- save-dev
+- mkdir src
+- cd src
+- touch index.html
+- touch index.js
+- touch webpack.config.js
+
+<!-- webpack.config.js -->
+
+<!--
+const path = require ('path');
+
+const  HtmlWebpackPlugin = require ('html-webpack-plugin')
+module.exports = {
+entry:' ./src/index.js',
+output:{
+  path:path.resolve(__dirname,'dist'),
+  filename:'my-first-webpack.bundle.js',
+  },
+module:{
+rules:[
+    {
+      test:/\.css$/i,
+      use:['style-loader','css-loader'],
+    },
+    {
+      test:/\.js$/i,
+      exclude: /node_modules/,
+      use:["babel-loader"],
+    }
+
+  ]
+},
+plugins:[nwe HtmlWebpackPlugin({template:"src/index.html"}) ],
+  devServer:{
+    port: 4444,
+    open:true,
+    stats: 'errors-only',
+  },
+}; -->
+
+<!--
+package.json
+ "scripts":{
+ "start": "webpack --mode=development",
+ "dev": "webpack-dev-server --mode=development",  (npm run dev)
+ "prod": "webpack-dev-server -- mode=production, (npm run prod)
+
+ } -->
+
+- npm ran dev
+- webpack --node=development
+- npm i webpack-dev-server --save-dev
+- npm i --save-dev css-loader
+- npm i --save-dev style-loader
+- npm i --save-dev babel-loader @babel/core
+
+<!-- babel.config.json -->
+<!-- {
+  "presets":["@babel/preset-env"]
+  } -->
+
+- npm i @babel/preset-env --save-dev
+
+<!-- плагіни -->
+
+- npm i --save-dev html-webpack-plugin
+
+<!-- див документацію -->
+
+- налаштування мін css лагіна
