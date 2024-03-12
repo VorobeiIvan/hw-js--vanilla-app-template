@@ -46,40 +46,52 @@
 
 // Для відображення повідомлень користувачеві, замість console.log(), використовуй бібліотеку notiflix.
 
-import Notiflix from 'notiflix';
-
 const form = document.querySelector('.form');
-const delay = form.querySelector('[name="delay"]');
-const step = form.querySelector('[name="step"]');
-const amount = form.querySelector('[name="amount"]');
 
 form.addEventListener('submit', onSubmit);
-function onSubmit(e) {
-  const position = 1;
-  console.log('delay', delay.value);
-  console.log('step', step.value);
-  console.log('amount', amount.value);
-  e.preventDefault();
-  createPromise(position, delay);
-}
 
-function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
-  if (shouldResolve) {
-    // Fulfill
-    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  } else {
-    // Reject
-    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+function onSubmit(event) {
+  event.preventDefault();
+  const { target } = event;
+  const amount = Number(target.amount.value);
+  const step = Number(target.step.value);
+  const delay = Number(target.delay.value);
+
+  generatePromises(amount, step, delay);
+  resetForm();
+}
+function generatePromises(amount, step, delay) {
+  let position = 0;
+  for (let i = 0; i < amount; i++) {
+    const interval = step * i + delay;
+    position += 1;
+    createPromise(position, interval).then(fulfill).catch(reject);
   }
 }
 
-// createPromise(2, 1500)
-//   .then(({ position, delay }) => {
-//     // console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-//     Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-//   })
-//   .catch(({ position, delay }) => {
-//     Notiflix.Notify.warning();
-//     `❌ Rejected promise ${position} in ${delay}ms`;
-//   });
+function createPromise(position, delay) {
+  return new Promise((resolve, reject) => {
+    const shouldResolve = Math.random() > 0.3;
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve({ position, delay });
+      } else {
+        reject({ position, delay });
+      }
+    }, delay);
+  });
+}
+
+function fulfill({ position, delay }) {
+  console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+  Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+}
+
+function reject({ position, delay }) {
+  console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+  Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+}
+
+function resetForm() {
+  form.reset();
+}

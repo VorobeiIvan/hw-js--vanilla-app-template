@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Promise generator</title>
   <link rel="stylesheet" href="./css/common.css" />
+  <link rel="stylesheet" href="dist/notiflix-3.2.7.min.css" />
+
 </head>
 
 <body>
@@ -14,19 +16,19 @@
   <form class="form">
     <label>
       First delay (ms)
-      <input type="number" name="delay" required />
+      <input type="number" name="delay" required min="0" />
     </label>
     <label>
       Delay step (ms)
-      <input type="number" name="step" required />
+      <input type="number" name="step" required min="0" />
     </label>
     <label>
       Amount
-      <input type="number" name="amount" required />
+      <input type="number" name="amount" required min="0" />
     </label>
     <button type="submit">Create promises</button>
   </form>
-
+  <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
   <script src="./js/03-promises.js" type="module"></script>
 </body>
 
