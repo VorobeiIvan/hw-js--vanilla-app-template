@@ -99,9 +99,11 @@
 
 // Для відображення повідомлень користувачеві, замість window.alert(), використовуй бібліотеку notiflix.
 
-// import iziToast from 'izitoast';
+import iziToast from 'izitoast';
 import flatpickr from 'flatpickr';
-import '/flatpickr/dist/flatpickr.min.css';
+
+import 'flatpickr/dist/flatpickr.min.css';
+
 import '../css/02-timer.css';
 const elements = {
   btnStart: document.querySelector('[data-start]'),
@@ -183,7 +185,7 @@ function renderTimerValue() {
   }
 }
 function changeDisabledBtn() {
-  elements.btnStart.disabled = !elements.input.disabled;
+  elements.btnStart.disabled = !elements.btnStart.disabled;
 }
 function changeDisabledInput() {
   elements.input.disabled = !elements.input.disabled;
@@ -192,3 +194,66 @@ function changeDisabledInput() {
 function message(message) {
   alert(message);
 }
+// import flatpickr from 'flatpickr';
+// import 'flatpickr/dist/flatpickr.min.css';
+
+// const elements = {
+//   btnStart: document.querySelector('[data-start]'),
+//   input: document.querySelector('#datetime-picker'),
+//   timerValues: document.querySelectorAll('.value')
+// };
+
+// let timerId;
+
+// const options = {
+//   enableTime: true,
+//   time_24hr: true,
+//   defaultDate: new Date(),
+//   minuteIncrement: 1,
+//   onClose(selectedDates) {
+//     const nowTime = Date.now();
+//     const selectedTime = selectedDates[0].getTime();
+//     const ms = selectedTime - nowTime;
+//     elements.btnStart.disabled = ms <= 0;
+//   },
+// };
+
+// flatpickr('#datetime-picker', options);
+
+// elements.btnStart.addEventListener('click', () => {
+//   if (!timerId) {
+//     const endTime = new Date(elements.input.value).getTime();
+//     if (!isNaN(endTime)) {
+//       timerId = setInterval(() => {
+//         const ms = endTime - Date.now();
+//         if (ms <= 0) {
+//           clearInterval(timerId);
+//           timerId = null;
+//         } else {
+//           renderTimerValue(ms);
+//         }
+//       }, 1000);
+//     }
+//   }
+// });
+
+// function renderTimerValue(ms) {
+//   const second = 1000;
+//   const minute = second * 60;
+//   const hour = minute * 60;
+//   const day = hour * 24;
+
+//   const days = Math.floor(ms / day);
+//   const hours = Math.floor((ms % day) / hour);
+//   const minutes = Math.floor(((ms % day) % hour) / minute);
+//   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+
+//   const values = [days, hours, minutes, seconds];
+//   elements.timerValues.forEach((element, index) => {
+//     element.textContent = addLeadingZero(values[index]);
+//   });
+// }
+
+// function addLeadingZero(value) {
+//   return value.toString().padStart(2, '0');
+// }
