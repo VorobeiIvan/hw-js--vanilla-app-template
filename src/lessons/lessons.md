@@ -176,6 +176,8 @@ SessionStorage
 import throttle from 'lodash.throttle'
 const STORAGE_KEY ='STORAGE_KEY'
 
+coonst formData={}
+
 const refs ={
   form: document.querySelector('.js-feedback-form'),
   textarea: document.querySelector('.js-feedback-form textarea'),
@@ -183,12 +185,19 @@ const refs ={
 
 refs.form.addEventListener ('submit', onFormSubmit);
 refs.textarea.addEventListener ('input', throttle(onTextareaInput,500));
+refs.form.addEventListener ('input', e=>{
+  console.log(e.target.nane)
+  console.log(e.target.value)
+
+  formData[e.target.nane]=e.target.value
+  
+});
 
 refs.form addEventListener ('input',e=>{
   console.log(e.target.name);
   console.log(e.target.value)
 
-  formData[e.target.name]=e.target.value
+  formData[e.target.name]=e.target.value  // збереження значення в об'єкті 
   console.log(formData)
 })
 populateTextarea();
@@ -197,7 +206,7 @@ function onFormSubmit(e){
    e.preventDefault();
 
    console.log( "Відправляємо форму");
-   e.currentTarget.reset();
+   e.target.reset();
    localStorage.removeItem('STORAGE_KEY')
 }
 function onTextareaInput (e) {
@@ -208,6 +217,29 @@ function onTextareaInput (e) {
 function populateTextarea (){
   const saveMessage =localStorage.getItem('STORAGE_KEY')
 }
+
+
+
 -->
 
 - npm i lodash.throttle
+
+**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+Шаблонізатори (handlebars,pug,EJS,Nunjacks, )
+**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***\_\_\_\_**\*\***\*\***\*\***\*\*\*\***\*\***\*\***\*\***
+
+
+
+const template = SuperTemplatingEngine.compile(`<div><p>{{email}}</p><p>{{name}}</p></div>`)
+
+template ({name:'Mango',email:'mango@dev'}) // <div><p>mango@dev</p><p>Mango</p></div>
+
+те ж саме тыльки функцією без шаблонізатора
+function template (data) {
+  return '<div>${data.name}</div>
+}
+
+\*\*\*\***\*\***\*\***\*\***handlebars.com\*\*\*\***\*\***\*\***\*\***
+
+
+

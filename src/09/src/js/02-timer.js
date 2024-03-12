@@ -99,9 +99,9 @@
 
 // Для відображення повідомлень користувачеві, замість window.alert(), використовуй бібліотеку notiflix.
 
-import iziToast from 'izitoast';
+// import iziToast from 'izitoast';
 import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
+import '/flatpickr/dist/flatpickr.min.css';
 import '../css/02-timer.css';
 const elements = {
   btnStart: document.querySelector('[data-start]'),
@@ -118,10 +118,10 @@ let timerId = null;
 const options = {
   enableTime: true,
   time_24hr: true,
-  defaultDate: new Date(),
+  defaultDate: Date.now(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    nowTime = new Date().getTime();
+    nowTime = Date.now();
     const selectedTime = selectedDates[0].getTime();
     ms = selectedTime - nowTime;
     if (ms > 0) {

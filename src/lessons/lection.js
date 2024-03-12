@@ -57,3 +57,30 @@ function onFilterChange(e) {
 function populateList(markup) {
   refs.list.innerHTML = markup;
 }
+
+// ____________________________________________________________________
+
+
+// setTimeout (collback, time, arg1, arg2, ...argN) -виклик колбека через кількість мілісекунд
+
+// setInterval( collback, time, arg1, arg2, ...argN) - виклик колбека кожні N мілісекунд
+
+// clearTimeout(timerId) - відміна виклику колбека через кількість мілісекунд
+
+// clearInterval(timerId) - відміна виклику колбека кожні N мілісекунд
+
+
+// collback -що викликається
+// time -час виклику колбека
+// arg1, arg2, ...argN -аргументи колбека для його виклику
+// timerId -ідентифікатор виклику колбека
+
+// приклад:  
+// const timerId = setInterval(collback, 1000, arg1);
+// const collback = function(arg1){ console.log(arg1); }
+// const arg1 = 'Hello World';
+
+// clearTimeout(timerId)
+
+
+
