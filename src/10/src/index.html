@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cats Search</title>
-    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
-    <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
-  </head>
-  <body>
-    <a href="../page-10.html">Зміст</a>
 
-    <select class="breed-select" id="selectElement">
-      <option value="value 1">Value 1</option>
-      <option value="value 2">Value 2</option>
-      <option value="value 3">Value 3</option>
-    </select>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cats Search</title>
+  <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet">
+  <link rel="stylesheet" href="../src/index.css" />
+</head>
 
-    <p class="loader">Loading data, please wait...</p>
-    <p class="error">Oops! Something went wrong! Try reloading the page!</p>
-    <div class="cat-info"></div>
+<body>
+  <a href="../page-10.html">Зміст</a>
 
-    <script src="../src/index.js" type="module"></script>
-  </body>
+  <select class="breed-select"></select>
+
+  <p class="loader" hidden>Loading data, please wait...</p>
+  <p class="error" hidden>Oops! Something went wrong! Try reloading the page!</p>
+  <div class="cat-info"></div>
+
+  <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+  <script src="../src/index.js" type="module"></script>
+
+</body>
+
 </html>

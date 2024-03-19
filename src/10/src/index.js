@@ -2,7 +2,7 @@
 // Створи фронтенд частину застосунку для пошуку інформації про кота за його породою. Подивися демо відео роботи програми, використовуй його як орієнтир для необхідного функціоналу.
 
 // HTTP-запити
-// Використовуй публічний The Cat API. Для початку роботи необхідно зареєструватися й отримати унікальний ключ доступу, щоб прикріплювати його до кожного запиту. Заходимо на головну сторінку та натискаємо нижче кнопку Signup for free, дотримуємося інструкції, ключ буде надіслано на вказану пошту.
+//  +  Використовуй публічний The Cat API. Для початку роботи необхідно зареєструватися й отримати унікальний ключ доступу, щоб прикріплювати його до кожного запиту. Заходимо на головну сторінку та натискаємо нижче кнопку Signup for free, дотримуємося інструкції, ключ буде надіслано на вказану пошту.
 
 // Для використання ключа необхідно використовувати HTTP-заголовок x-api-key. Рекомендується використовувати axios та додати заголовок до всіх запитів.
 
@@ -11,9 +11,9 @@
 // axios.defaults.headers.common["x-api-key"] = "твій ключ";
 
 // Колекція порід
-// Під час завантаження сторінки має виконуватися HTTP-запит за колекцією порід. Для цього необхідно виконати GET-запит на ресурс https://api.thecatapi.com/v1/breeds, що повертає масив об'єктів. У разі успішного запиту, необхідно наповнити select.breed-select опціями так, щоб value опції містило id породи, а в інтерфейсі користувачеві відображалася назва породи.
+//  +  Під час завантаження сторінки має виконуватися HTTP-запит за колекцією порід. Для цього необхідно виконати GET-запит на ресурс https://api.thecatapi.com/v1/breeds, що повертає масив об'єктів. У разі успішного запиту, необхідно наповнити select.breed-select опціями так, щоб value опції містило id породи, а в інтерфейсі користувачеві відображалася назва породи.
 
-// Напиши функцію fetchBreeds(), яка виконує HTTP-запит і повертає проміс із масивом порід - результатом запиту. Винеси її у файл cat-api.js та зроби іменований експорт.
+//  +  Напиши функцію fetchBreeds(), яка виконує HTTP-запит і повертає проміс із масивом порід - результатом запиту. Винеси її у файл cat-api.js та зроби іменований експорт.
 
 // Інформація про кота
 // Коли користувач обирає якусь опцію в селекті, необхідно виконувати запит за повною інформацією про кота на ресурс https://api.thecatapi.com/v1/images/search. Не забудь вказати в цьому запиті параметр рядка запиту breed_ids з ідентифікатором породи.
@@ -43,8 +43,63 @@
 // Замість p.loader можеш використовувати будь-яку бібліотеку з красивими CSS-завантажувачами, наприклад https://cssloaders.github.io/
 // Завантажувач p.error можеш використовувати будь-яку бібліотеку з гарними сповіщеннями, наприклад Notiflix
 
+import { fetchBreeds, fetchCatByBreed } from './cat-api';
+import { getRefs } from './get-refs';
 import SlimSelect from 'slim-select';
 
-new SlimSelect({
-  select: '#selectElement',
-});
+const refs = getRefs();
+refs.select.addEventListener('change', onBreedSelect);
+
+// new SlimSelect({
+//   select: '.breed-select',
+// });
+
+fetchBreeds()
+  .then(data => {
+    console.log('data', data);
+    loader(false);
+    markupSelectOption(data);
+  })
+  .catch(error(true))
+  .finally(() => {
+    loader(true);
+  });
+
+function onBreedSelect() {
+  const breedId = refs.select.value;
+  loader(false);
+  fetchCatByBreed(breedId)
+    .then(data => {
+      console.log('data', data);
+      markupCatInfo(data);
+    })
+    .catch(error(true))
+    .finally(() => {
+      loader(true);
+    });
+}
+
+function markupSelectOption(data) {
+  return (refs.select.innerHTML = data
+    .map(({ name, id }) => `<option value="${id}">${name}</option>`)
+    .join(''));
+}
+
+function loader(status) {
+  return (refs.loader.hidden = status);
+}
+
+function error(status) {
+  return (refs.error.hidden = status);
+}
+
+function markupCatInfo(data) {
+  const { url, name, description, temperament } = data[0];
+  return (refs.catInfo.innerHTML = `
+ <img src="${url}" width =200 height=150>
+ <div class="cat-description">
+    <h2>${name}</h2>
+    <p>${description}</p>
+    <p>${temperament}</p>
+</div>`);
+}
