@@ -16,13 +16,11 @@
 //  +  Напиши функцію fetchBreeds(), яка виконує HTTP-запит і повертає проміс із масивом порід - результатом запиту. Винеси її у файл cat-api.js та зроби іменований експорт.
 
 // Інформація про кота
-// Коли користувач обирає якусь опцію в селекті, необхідно виконувати запит за повною інформацією про кота на ресурс https://api.thecatapi.com/v1/images/search. Не забудь вказати в цьому запиті параметр рядка запиту breed_ids з ідентифікатором породи.
+//  +  Коли користувач обирає якусь опцію в селекті, необхідно виконувати запит за повною інформацією про кота на ресурс https://api.thecatapi.com/v1/images/search. Не забудь вказати в цьому запиті параметр рядка запиту breed_ids з ідентифікатором породи.
 
-// Ось як буде виглядати URL-запит для отримання повної інформації про собаку за ідентифікатором породи:
+//  +  Ось як буде виглядати URL-запит для отримання повної інформації про собаку за ідентифікатором породи: https://api.thecatapi.com/v1/images/search?breed_ids=ідентифікатор_породи
 
-// https://api.thecatapi.com/v1/images/search?breed_ids=ідентифікатор_породи
-
-// Напиши функцію fetchCatByBreed(breedId), яка очікує ідентифікатор породи, робить HTTP-запит і повертає проміс із даними про кота - результатом запиту. Винеси її у файл cat-api.js і зроби іменований експорт.
+//  +  Напиши функцію fetchCatByBreed(breedId), яка очікує ідентифікатор породи, робить HTTP-запит і повертає проміс із даними про кота - результатом запиту. Винеси її у файл cat-api.js і зроби іменований експорт.
 
 // Якщо запит був успішний, під селектом у блоці div.cat-info з'являється зображення і розгорнута інформація про кота: назва породи, опис і темперамент.
 
@@ -45,15 +43,27 @@
 
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
 import { getRefs } from './get-refs';
-import SlimSelect from 'slim-select';
 
 const refs = getRefs();
-refs.select.addEventListener('change', onBreedSelect);
+// refs.select.addEventListener('change', onBreedSelect);
 
-// new SlimSelect({
-//   select: '.breed-select',
-// });
+new SlimSelect(
+  {
+    select: '.breed-select',
+    onchange: onBreedSelect,
+  },
 
+  fetchBreeds()
+    .then(data => {
+      console.log('data', data);
+      loader(false);
+      markupSelectOption(data);
+    })
+    .catch(error(true))
+    .finally(() => {
+      loader(true);
+    })
+);
 fetchBreeds()
   .then(data => {
     console.log('data', data);

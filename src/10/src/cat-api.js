@@ -1,21 +1,28 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://api.thecatapi.com/v1';
 const API_KEY =
   'live_buNPOUvrSFnbHmWMHbKKyTFK6Z5vmkgojVgP35PPtyfBbxDcEShhsDG9yaYGmrIK';
-const END_POINT = '/breeds';
-const SEARCH_URL = `https://api.thecatapi.com/v1/images/search`;
+const BASE_URL = 'https://api.thecatapi.com/v1/breeds';
+const CAT_API_URL = 'https://api.thecatapi.com/v1/images/search';
 
 axios.defaults.headers.common['x-api-key'] = API_KEY;
 
-export async function fetchBreeds() {
-  return await fetch(`${BASE_URL}${END_POINT}`).then(response =>
-    response.json()
-  );
+export function fetchBreeds() {
+  return axios.get(BASE_URL).then(response => {
+    return response.data;
+  });
 }
 
-export async function fetchCatByBreed(breedId) {
-  return await fetch(`${SEARCH_URL}?breed_ids=${breedId}`).then(response =>
-    response.json()
-  );
+export function fetchCatByBreed(breedId) {
+  const CAT_API_URL = 'https://api.thecatapi.com/v1/images/search';
+
+  return axios
+    .get(CAT_API_URL, {
+      params: {
+        breed_ids: breedId,
+      },
+    })
+    .then(response => {
+      return response.data;
+    });
 }
